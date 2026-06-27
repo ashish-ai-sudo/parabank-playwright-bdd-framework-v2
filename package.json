@@ -31,7 +31,8 @@
     "typecheck":         "tsc --noEmit",
     "clean":             "rm -rf reports test-results .tmp dist",
 
-    "playwright:install": "npx playwright install --with-deps"
+    "playwright:install": "npx playwright install --with-deps",
+    "test:dryrun":        "cucumber-js --dry-run"
   },
   "devDependencies": {
     "@cucumber/cucumber":              "^10.6.0",

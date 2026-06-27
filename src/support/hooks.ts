@@ -1,8 +1,6 @@
 import {
   After,
-  AfterAll,
   Before,
-  BeforeAll,
   setDefaultTimeout,
   Status,
 } from '@cucumber/cucumber';
@@ -49,18 +47,6 @@ const BROWSER_MAP = {
 // Apply the configured default timeout to all Cucumber steps globally.
 setDefaultTimeout(env.defaultTimeout);
 
-// ── Global Setup / Teardown ─────────────────────────────────────────────────
-
-BeforeAll(async function () {
-  // Reserved for global setup: e.g. starting a mock API server, seeding DB,
-  // or authenticating a shared admin session that is stored to disk and
-  // reused across tests (see Playwright storageState pattern).
-});
-
-AfterAll(async function () {
-  // Reserved for global teardown: e.g. stopping mock servers, cleaning test data.
-});
-
 // ── Per-Scenario Setup ──────────────────────────────────────────────────────
 
 Before(async function (this: ICustomWorld) {
@@ -98,19 +84,19 @@ After(async function (this: ICustomWorld, scenario) {
   // Capture a full-page screenshot on failure and embed it in the HTML report.
   if (scenario.result?.status === Status.FAILED) {
     try {
-      const screenshot = await this.page?.screenshot({ fullPage: true });
-      if (screenshot) {
-        await this.attach(screenshot, 'image/png');
+      if (this.page) {
+        const screenshot = await this.page.screenshot({ fullPage: true });
+        this.attach(screenshot, 'image/png');
       }
     } catch {
-      // Screenshot capture failed (e.g. browser crashed). Log but don't throw.
-      await this.log('[hooks] Screenshot capture failed after scenario failure.');
+      this.log('[hooks] Screenshot capture failed after scenario failure.');
     }
   }
 
   // Teardown in reverse order of creation.
-  // Optional chaining guards against cases where Before hook failed early.
-  await this.page?.close();
-  await this.context?.close();
-  await this.browser?.close();
+  // Null-guards instead of optional chaining: avoids awaiting `undefined`,
+  // which ESLint's await-thenable rule correctly flags as suspicious.
+  if (this.page)    await this.page.close();
+  if (this.context) await this.context.close();
+  if (this.browser) await this.browser.close();
 });

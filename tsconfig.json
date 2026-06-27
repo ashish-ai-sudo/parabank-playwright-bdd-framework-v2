@@ -40,8 +40,7 @@
     // ── Decorators ─────────────────────────────────────────────────────────
     // Required if you adopt IoC / DI patterns later (e.g. tsyringe, inversify).
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-
+    "emitDecoratorMetadata": true
   },
 
   // ── ts-node Runtime Configuration ────────────────────────────────────────
