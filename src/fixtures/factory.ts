@@ -1,5 +1,5 @@
-import { randomInt, randomString } from '../utils/helpers.js';
-import type { AddressData, TransferData, UserData } from './types.js';
+import { randomInt, randomString } from '../utils/helpers';
+import type { AddressData, TransferData, UserData } from './types';
 
 /**
  * Test Data Factory
@@ -24,8 +24,9 @@ import type { AddressData, TransferData, UserData } from './types.js';
  */
 export function buildUser(overrides: Partial<UserData> = {}): UserData {
   const base = randomString(6);
-  // Timestamp suffix guarantees username uniqueness under parallel execution.
-  const defaultUsername = `user_${base}_${Date.now()}`;
+  // Timestamp in base-36 keeps the username short (≤14 chars) and alphanumeric.
+  // ParaBank rejects usernames that are too long or contain underscores.
+  const defaultUsername = `usr${Date.now().toString(36)}`;
 
   const defaults: UserData = {
     firstName: `Test${base}`,

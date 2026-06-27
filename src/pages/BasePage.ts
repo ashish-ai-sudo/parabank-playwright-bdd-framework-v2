@@ -1,6 +1,6 @@
 import { type Locator, type Page } from '@playwright/test';
-import { createLogger } from '../utils/logger.js';
-import { FrameworkError } from '../support/errors.js';
+import { createLogger } from '../utils/logger';
+import { FrameworkError } from '../support/errors';
 
 /**
  * BasePage — abstract foundation for all Page Objects.

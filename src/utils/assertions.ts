@@ -1,4 +1,4 @@
-import { expect, type Locator, type Page } from './expect.js';
+import { expect, type Locator, type Page } from './expect';
 
 /**
  * Semantic assertion helpers.

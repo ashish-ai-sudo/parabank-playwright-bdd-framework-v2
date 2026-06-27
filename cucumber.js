@@ -97,7 +97,7 @@ module.exports = {
     tags:     '@smoke or @regression',
     parallel: 4,                        // See: Architectural Decision #8
     format: [
-      '@cucumber/pretty-formatter',
+      'progress',
       'html:reports/cucumber-report.html',
       'json:reports/cucumber-report.json',
     ],

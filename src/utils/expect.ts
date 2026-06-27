@@ -24,7 +24,7 @@
  */
 
 import { expect as _expect } from '@playwright/test';
-import { getEnvironmentConfig } from '../config/environment.js';
+import { getEnvironmentConfig } from '../config/environment';
 
 const { defaultTimeout } = getEnvironmentConfig();
 
