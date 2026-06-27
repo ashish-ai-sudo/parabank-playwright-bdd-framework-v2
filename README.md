@@ -176,3 +176,106 @@ Tests run against the public ParaBank demo at `https://parabank.parasoft.com`.
 This is a shared instance — registration data persists across all users worldwide.
 All test users are generated with unique timestamp-based usernames to avoid collisions.
 For stable CI results, deploy a dedicated ParaBank instance.
+
+---
+
+## Accessibility Testing
+
+The framework includes two complementary layers of accessibility coverage.
+
+### Functional accessibility tests
+
+Implemented as standard Cucumber scenarios in `features/accessibility.feature`.
+These validate observable behaviour without automated tooling:
+
+- **Page title validation** — verifies every public page has a correct, descriptive browser tab title (WCAG 2.4.2)
+
+These tests pass on any correctly deployed ParaBank instance and run as part of the `@regression` profile.
+
+### Automated WCAG scans (axe-core)
+
+Implemented via `@axe-core/playwright` (Deque Systems) and the `src/utils/axeScanner.ts` utility.
+
+Scanned pages:
+
+| Page | Scenario tag | Requires login |
+|---|---|---|
+| Home / Login | ACS-010 | No |
+| Registration | ACS-010 | No |
+| Accounts Overview | ACS-011 | Yes |
+
+**WCAG standard**: WCAG 2.0 A, WCAG 2.0 AA, WCAG 2.1 AA (`wcag2a`, `wcag2aa`, `wcag21aa`).
+
+**Failure threshold**: Only `critical` impact violations fail the scenario. `serious`, `moderate`, and `minor` violations are reported as warnings and attached to the Allure report without blocking. This mirrors enterprise accessibility triage practice where critical violations (keyboard traps, missing alt text) block releases while lower-impact issues are tracked in a backlog.
+
+#### Run accessibility tests
+```bash
+npm run test:accessibility
+```
+
+#### Known violations on the shared demo server
+
+The public ParaBank demo application has pre-existing accessibility violations that are outside the test team's control:
+
+| Rule | Impact | Description |
+|---|---|---|
+| `html-has-lang` | Critical | `<html>` element missing `lang` attribute — affects all pages |
+| `image-alt` | Critical | Admin icon `<img>` missing `alt` attribute — authenticated pages |
+| `link-name` | Serious | Admin navigation link has no discernible text |
+
+These are genuine WCAG violations in the application. The axe-core scenarios **correctly fail** when run against the shared demo server, demonstrating that the tool is working. On a correctly configured, accessible deployment these scenarios would pass.
+
+> **Analogy**: This is equivalent to LOG-007 (invalid-credentials test) failing when the demo server is in degraded state. The test is correct; the environment is not.
+
+---
+
+## Accessibility Reports in Allure
+
+Every axe-core scan attaches diagnostics to the Allure report regardless of outcome.
+
+### When the scan passes
+
+| Attachment | Content |
+|---|---|
+| Screenshot (PNG) | Full-page visual of the scanned state |
+| Accessibility Summary (text) | `✅ Accessibility Scan Passed` + rule count |
+
+### When violations are found
+
+| Attachment | Content |
+|---|---|
+| Screenshot (PNG) | Full-page visual of the scanned state |
+| Violation Summary (text) | Markdown table with counts by impact level, then per-violation details |
+| Full Scan Result (JSON) | Complete axe-core output for programmatic inspection |
+
+### Violation details in the Markdown attachment
+
+Each violation entry includes:
+
+```
+### [CRITICAL] html-has-lang
+**Ensure every HTML document has a lang attribute**
+📖 Help: https://dequeuniversity.com/rules/axe/4.12/html-has-lang
+
+**Affected elements:**
+- `html`
+  - Fix any of the following: The <html> element does not have a lang attribute
+```
+
+### How to interpret an accessibility failure
+
+1. Open the Allure report (`npm run report:open`)
+2. Navigate to the failed scenario under **Suites → ParaBank → Accessibility**
+3. Click the scenario to expand attachments
+4. Open **Violation Summary** (text) for a human-readable list sorted by impact
+5. Open **Full Scan Result** (JSON) if you need the raw axe-core output for filing a bug
+6. The PNG screenshot shows the exact page state when the scan ran
+
+### Remediation workflow
+
+| Impact | Action |
+|---|---|
+| Critical | Block the release — must fix before merge |
+| Serious | Create a P1 accessibility bug — fix in current sprint |
+| Moderate | Create a P2 accessibility bug — schedule for next sprint |
+| Minor | Log in accessibility backlog — address as bandwidth allows |
