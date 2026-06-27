@@ -1,4 +1,4 @@
-@registration
+@registration @allure.label.parentSuite:ParaBank @allure.label.suite:Registration
 Feature: User Registration
   As a prospective ParaBank customer
   I want to register for an online banking account

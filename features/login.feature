@@ -1,4 +1,4 @@
-@login
+@login @allure.label.parentSuite:ParaBank @allure.label.suite:Login
 Feature: User Login
   As a registered ParaBank customer
   I want to log in to my account
@@ -15,18 +15,6 @@ Feature: User Login
     Then the user is on the Accounts Overview page
     And the Account Services navigation is visible
 
-  # TC: LOG-004 — Submitting without credentials shows a validation message.
-  @regression @login
-  Scenario: Login without entering credentials shows a validation message
-    When the user logs in with username "" and password ""
-    Then the login error message "Please enter a username and password." is displayed
-
-
-  @regression @login
-  Scenario: Login with unrecognised credentials shows an error
-    When the user logs in with unrecognised credentials
-    Then the login error message "The username and password could not be verified." is displayed
-
   # TC: LOG-016
   @regression @login
   Scenario: Logging out terminates the session and returns to the home page
@@ -40,3 +28,17 @@ Feature: User Login
     Given the user has logged out after being logged in
     When the user navigates directly to the Accounts Overview page
     Then the protected page is not accessible
+
+  # TC: LOG-004 — Submitting without credentials shows a validation message.
+  @regression @login
+  Scenario: Login without entering credentials shows a validation message
+    When the user logs in with username "" and password ""
+    Then the login error message "Please enter a username and password." is displayed
+
+  # TC: LOG-007 — A timestamp-based username that cannot pre-exist on the shared demo server.
+  # Static usernames (e.g. "baduser999") may be registered by other testers;
+  # a generated username guarantees the account has never been created.
+  @regression @login
+  Scenario: Login with unrecognised credentials shows an error
+    When the user logs in with unrecognised credentials
+    Then the login error message "The username and password could not be verified." is displayed
