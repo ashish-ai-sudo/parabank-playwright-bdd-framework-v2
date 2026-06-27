@@ -398,16 +398,24 @@ TypeScript is configured with `strict: true`, `noUnusedLocals`, `noUnusedParamet
 
 ## AI Usage
 
-GitHub Copilot (Claude Sonnet 4.6) was used as an engineering assistant throughout this project.
+GitHub Copilot (Claude Sonnet 4.6) was used as an engineering assistant throughout the development of this project to accelerate implementation and documentation.
 
-- **Code generation** — Copilot produced initial implementations of step definitions, page objects, and utilities based on prompts describing the desired behaviour.
-- **Code review** — All generated code was reviewed for correctness, TypeScript type safety, and alignment with the established framework conventions before acceptance.
-- **Architecture decisions** — Design choices (POM structure, factory pattern, thin glue code, Allure integration approach) were made and validated by the engineer. These were not delegated to the model.
-- **Refactoring** — Generated code was refactored where it was over-engineered, introduced unnecessary abstractions, or deviated from the patterns established in the codebase.
-- **Manual verification** — Every scenario was executed locally. Results were inspected in the Allure report and confirmed correct before submission.
-- **Known limitation** — The model occasionally proposed unnecessary complexity (extra helper layers, redundant interfaces). These suggestions were explicitly rejected in favour of the simplest correct implementation that satisfies the requirement.
+Its use included:
 
-AI was a productivity tool. The engineering judgement, architecture, and implementation decisions are the author's own.
+* **Implementation assistance** — Generating initial implementations for step definitions, page objects, utilities, and repetitive boilerplate based on clearly defined requirements.
+* **Code review support** — Suggesting refactorings, identifying potential improvements, and highlighting opportunities to simplify or improve maintainability.
+* **Documentation assistance** — Assisting with README structure, project documentation, and implementation summaries.
+
+All AI-generated output was manually reviewed before being incorporated into the project.
+
+Architecture, framework design, technology selection, and engineering decisions—including the Page Object Model, Cucumber BDD structure, dynamic test data strategy, reporting approach, and accessibility integration—were evaluated and validated by the author.
+
+Where AI suggested unnecessary abstractions or overly complex implementations, those suggestions were simplified or rejected to keep the framework maintainable and aligned with enterprise software craftsmanship principles.
+
+Every automated scenario was executed locally, and the final implementation was validated through successful test execution and report verification before submission.
+
+AI served as a productivity tool to accelerate development, while responsibility for the final implementation, code quality, and technical decisions remained with the author.
+
 
 ---
 
