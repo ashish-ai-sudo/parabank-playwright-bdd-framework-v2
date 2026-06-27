@@ -36,6 +36,7 @@
     "test:dryrun": "cucumber-js --dry-run"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
     "@cucumber/cucumber": "^10.6.0",
     "@playwright/test": "^1.44.0",
     "@types/node": "^20.12.0",
