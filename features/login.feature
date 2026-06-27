@@ -15,16 +15,17 @@ Feature: User Login
     Then the user is on the Accounts Overview page
     And the Account Services navigation is visible
 
-  # TC: LOG-004, LOG-007
+  # TC: LOG-004 — Submitting without credentials shows a validation message.
   @regression @login
-  Scenario Outline: Login with invalid or missing credentials shows an error
-    When the user logs in with username "<username>" and password "<password>"
-    Then the login error message "<error_message>" is displayed
+  Scenario: Login without entering credentials shows a validation message
+    When the user logs in with username "" and password ""
+    Then the login error message "Please enter a username and password." is displayed
 
-    Examples:
-      | username   | password | error_message                                    |
-      |            |          | Please enter a username and password.            |
-      | baduser999 | badpass  | The username and password could not be verified. |
+
+  @regression @login
+  Scenario: Login with unrecognised credentials shows an error
+    When the user logs in with unrecognised credentials
+    Then the login error message "The username and password could not be verified." is displayed
 
   # TC: LOG-016
   @regression @login

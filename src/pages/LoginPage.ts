@@ -21,7 +21,6 @@ export class LoginPage extends BasePage {
   private readonly usernameIn   = () => this.panel().locator('input[name="username"]');
   private readonly passwordIn   = () => this.panel().locator('input[name="password"]');
   private readonly loginBtn     = () => this.page.getByRole('button', { name: 'Log In' });
-  private readonly accountSvc   = () => this.page.getByRole('heading', { name: 'Account Services' });
 
   // ── Actions ───────────────────────────────────────────────────────────────
 
@@ -34,11 +33,6 @@ export class LoginPage extends BasePage {
   }
 
   // ── Queries ───────────────────────────────────────────────────────────────
-
-  /** True when Account Services sidebar is visible (reliable logged-in signal). */
-  async isLoggedIn(): Promise<boolean> {
-    return this.accountSvc().isVisible();
-  }
 
   /** Text of the login error message element. */
   async getErrorMessage(): Promise<string> {

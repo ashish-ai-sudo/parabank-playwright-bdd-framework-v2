@@ -8,44 +8,33 @@ import type { ICustomWorld } from '../support/world';
 
 const log = createLogger('LoginSteps');
 
-// ─── State Setup ─────────────────────────────────────────────────────────────
-
-/**
- * Register a fresh user (auto-login happens), then log out immediately.
- * After this step: session is cleared, this.userData holds the credentials,
- * and the browser is on the home page — ready to test the login form.
- */
-Given(
-  'a registered customer exists',
-  async function (this: ICustomWorld) {
-    const user = buildUser();
-    this.userData = user;
-    log.info(`Creating customer for login test — username: ${user.username}`);
-    const regPage = new RegistrationPage(this.page);
-    await regPage.open();
-    await regPage.register(user);
-    // Log out so the login form is reachable on the home page.
-    const loginPage = new LoginPage(this.page);
-    await loginPage.logout();
-  },
-);
+// ─── Private helper ───────────────────────────────────────────────────────────
 
 /**
  * Register a fresh user (auto-login), then immediately log out.
- * After this step: logged-out session, browser on home page.
- * Used to set up "access protected page after logout" scenarios.
+ * After this call: session is cleared, world.userData holds the credentials,
+ * and the browser is on the home page — ready to test the login form.
  */
+async function registerAndLogOut(world: ICustomWorld): Promise<void> {
+  const user = buildUser();
+  world.userData = user;
+  log.info(`Registering fresh user then logging out — username: ${user.username}`);
+  const regPage = new RegistrationPage(world.page);
+  await regPage.open();
+  await regPage.register(user);
+  await new LoginPage(world.page).logout();
+}
+
+// ─── State Setup ─────────────────────────────────────────────────────────────
+
+Given('a registered customer exists', async function (this: ICustomWorld) {
+  await registerAndLogOut(this);
+});
+
 Given(
   'the user has logged out after being logged in',
   async function (this: ICustomWorld) {
-    const user = buildUser();
-    this.userData = user;
-    log.info(`Registering and logging out — username: ${user.username}`);
-    const regPage = new RegistrationPage(this.page);
-    await regPage.open();
-    await regPage.register(user);
-    const loginPage = new LoginPage(this.page);
-    await loginPage.logout();
+    await registerAndLogOut(this);
   },
 );
 
@@ -56,6 +45,16 @@ When(
   async function (this: ICustomWorld, username: string, password: string) {
     const loginPage = new LoginPage(this.page);
     await loginPage.login(username, password);
+  },
+);
+
+When(
+  'the user logs in with unrecognised credentials',
+  async function (this: ICustomWorld) {
+    // Use a timestamp-based username that cannot pre-exist on the shared demo server.
+    const username = `usr${Date.now().toString(36)}x`;
+    const loginPage = new LoginPage(this.page);
+    await loginPage.login(username, 'wrongpassword1');
   },
 );
 

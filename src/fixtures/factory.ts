@@ -1,5 +1,5 @@
 import { randomInt, randomString } from '../utils/helpers';
-import type { AddressData, TransferData, UserData } from './types';
+import type { UserData } from './types';
 
 /**
  * Test Data Factory
@@ -45,32 +45,4 @@ export function buildUser(overrides: Partial<UserData> = {}): UserData {
   return { ...defaults, ...overrides } as UserData;
 }
 
-/**
- * Build a valid mailing address.
- */
-export function buildAddress(overrides: Partial<AddressData> = {}): AddressData {
-  return {
-    address: `${randomInt(100, 9999)} Oak Avenue`,
-    city:    'Portland',
-    state:   'OR',
-    zipCode: String(randomInt(10000, 99999)),
-    ...overrides,
-  };
-}
 
-/**
- * Build a transfer instruction between two accounts.
- * Account numbers must be supplied — they are runtime values, not generated.
- */
-export function buildTransfer(
-  fromAccount: string,
-  toAccount: string,
-  overrides: Partial<TransferData> = {},
-): TransferData {
-  return {
-    fromAccount,
-    toAccount,
-    amount: randomInt(10, 500),
-    ...overrides,
-  };
-}

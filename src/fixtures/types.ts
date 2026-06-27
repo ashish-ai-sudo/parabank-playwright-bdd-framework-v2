@@ -23,17 +23,4 @@ export interface UserData {
   password:  string;
 }
 
-/** Standalone mailing address — used in transfer/billpay forms. */
-export interface AddressData {
-  address: string;
-  city:    string;
-  state:   string;
-  zipCode: string;
-}
 
-/** A financial transfer instruction between two accounts. */
-export interface TransferData {
-  fromAccount: string;
-  toAccount:   string;
-  amount:      number;
-}

@@ -26,26 +26,4 @@ export function randomInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-/**
- * Generate a unique email address suitable for test account creation.
- * Includes a timestamp to guarantee uniqueness even under parallel execution.
- */
-export function randomEmail(domain = 'test.example.com'): string {
-  return `test_${randomString(6)}_${Date.now()}@${domain}`;
-}
 
-/**
- * Format a Date object as a YYYY-MM-DD string.
- */
-export function formatDate(date: Date): string {
-  return date.toISOString().split('T')[0] ?? '';
-}
-
-/**
- * Return a new Date offset by `days` from today (positive = future, negative = past).
- */
-export function dateOffsetDays(days: number): Date {
-  const date = new Date();
-  date.setDate(date.getDate() + days);
-  return date;
-}

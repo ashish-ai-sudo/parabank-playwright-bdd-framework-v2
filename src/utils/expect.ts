@@ -33,7 +33,3 @@ const { defaultTimeout } = getEnvironmentConfig();
  * Drop-in replacement for the `expect` export from '@playwright/test'.
  */
 export const expect = _expect.configure({ timeout: defaultTimeout });
-
-// Re-export Playwright types that consumers commonly need alongside expect,
-// so they have a single import point for assertion work.
-export type { Locator, Page } from '@playwright/test';

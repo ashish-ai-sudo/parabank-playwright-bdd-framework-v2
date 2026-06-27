@@ -28,9 +28,6 @@ export class AccountOverviewPage extends BasePage {
   /** Account data rows only — excludes the "Total" summary row. */
   private readonly dataRows     = () => this.locate('#accountTable tbody tr:has(a)');
 
-  /** The "Total" summary row at the bottom of tbody. */
-  private readonly totalRow     = () => this.locate('#accountTable tbody tr:not(:has(a))');
-
   // ── Queries ───────────────────────────────────────────────────────────────
 
   /** Whether at least one account data row is present (waits for AJAX load). */
@@ -52,16 +49,6 @@ export class AccountOverviewPage extends BasePage {
     const balanceCell = firstRow.locator('td').nth(1);
     const text = await balanceCell.textContent();
     log.debug(`First account balance: ${text?.trim() ?? 'n/a'}`);
-    return text?.trim() ?? '';
-  }
-
-  /**
-   * Total balance from the "Total" summary row.
-   * Equivalent to getFirstAccountBalance() for single-account customers.
-   */
-  async getTotalBalance(): Promise<string> {
-    const totalCell = this.totalRow().locator('td').nth(1);
-    const text = await totalCell.textContent();
     return text?.trim() ?? '';
   }
 

@@ -70,16 +70,19 @@ export class RegistrationPage extends BasePage {
     await this.fieldByLabel(fieldLabel).fill('');
   }
 
+  /**
+   * Override the confirm-password field with an explicit value.
+   * Use this to set up a password-mismatch scenario without re-filling the whole form.
+   */
+  async setConfirmPassword(value: string): Promise<void> {
+    await this.confirmPw().fill(value);
+  }
+
   // ── Queries ───────────────────────────────────────────────────────────────
 
   /** Text of the success paragraph shown after a successful registration. */
   async getSuccessMessage(): Promise<string> {
     return this.textOf('#rightPanel p');
-  }
-
-  /** Welcome heading text, e.g. "Welcome john_doe". */
-  async getWelcomeHeading(): Promise<string> {
-    return this.textOf('#rightPanel h1');
   }
 
   // ── Private helpers ────────────────────────────────────────────────────────

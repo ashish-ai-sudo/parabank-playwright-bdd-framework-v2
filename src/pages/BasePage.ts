@@ -6,15 +6,15 @@ import { FrameworkError } from '../support/errors';
  * BasePage — abstract foundation for all Page Objects.
  *
  * Design decisions:
- *  - Abstract class (not interface) so Page Objects get navigation helpers
- *    for free without duplicating them.
+ *  - Abstract class (not interface) so Page Objects get the `open()` navigation
+ *    helper and the `locate` / `textOf` utilities for free.
  *  - `path` is abstract: every subclass MUST declare its route. This is
  *    enforced at compile time, not at runtime.
- *  - Internal helpers (`textOf`, `isVisible`, `locate`) are `protected` so
- *    they are accessible in subclasses but invisible to step definitions.
+ *  - Protected helpers (`textOf`, `locate`) are accessible in subclasses
+ *    but invisible to step definitions.
  *    Step definitions interact only with Page Object methods, never BasePage.
  *  - No wrapping of every Playwright method. Only methods that provide
- *    genuine value (navigation, text extraction, visibility check) are here.
+ *    genuine value (navigation, text extraction) are here.
  *    For everything else, Page Objects use `this.page` directly.
  *
  * Usage:
@@ -57,30 +57,6 @@ export abstract class BasePage {
     }
   }
 
-  /**
-   * Navigate to a URL that is not this page's own `path`.
-   * Use sparingly — most navigation should go through Page Object `open()`.
-   */
-  protected async goTo(
-    url: string,
-    waitUntil: 'load' | 'domcontentloaded' | 'networkidle' = 'domcontentloaded',
-  ): Promise<void> {
-    this.log.debug(`goTo(${url})`);
-    await this.page.goto(url, { waitUntil });
-  }
-
-  // ── Page State ─────────────────────────────────────────────────────────────
-
-  /** Current page <title>. */
-  async getTitle(): Promise<string> {
-    return this.page.title();
-  }
-
-  /** Current full URL (including query string). */
-  currentUrl(): string {
-    return this.page.url();
-  }
-
   // ── Protected Helpers for Subclasses ──────────────────────────────────────
 
   /**
@@ -98,13 +74,5 @@ export abstract class BasePage {
   protected async textOf(selector: string): Promise<string> {
     const text = await this.page.locator(selector).textContent();
     return text?.trim() ?? '';
-  }
-
-  /**
-   * Non-asserting visibility check. Use Playwright `expect` for assertions.
-   * This is for conditional logic only (e.g. "if error banner is visible...").
-   */
-  protected async isVisible(selector: string): Promise<boolean> {
-    return this.page.locator(selector).isVisible();
   }
 }

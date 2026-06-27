@@ -108,8 +108,8 @@ When(
     this.userData = user;
     const regPage = new RegistrationPage(this.page);
     await regPage.fillForm(user);
-    // Override confirmPw with a value that does not match the password.
-    await this.page.fill('#repeatedPassword', 'MISMATCH_PASS99!');
+    // Override confirmPw via the Page Object — do not use this.page.fill() directly.
+    await regPage.setConfirmPassword('MISMATCH_PASS99!');
     await regPage.submit();
   },
 );

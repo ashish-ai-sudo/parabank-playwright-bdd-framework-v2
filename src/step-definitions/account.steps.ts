@@ -38,17 +38,6 @@ Then(
   },
 );
 
-Then(
-  'the account balance is {string}',
-  async function (this: ICustomWorld, expectedBalance: string) {
-    const overviewPage = new AccountOverviewPage(this.page);
-    const balance = await overviewPage.getFirstAccountBalance();
-    this.balance = balance;
-    log.info(`Account balance captured: ${balance}`);
-    expect(balance).toBe(expectedBalance);
-  },
-);
-
 // ─── Dynamic balance capture ───────────────────────────────────────────────
 
 Then(
@@ -68,7 +57,7 @@ Then(
 
 Then(
   'the displayed balance is in a valid currency format',
-  async function (this: ICustomWorld) {
+  function (this: ICustomWorld) {
     const balance = this.balance ?? '';
     // Matches formats like $515.50 or $1,234.56
     expect(balance).toMatch(/^\$[\d,]+\.\d{2}$/);
