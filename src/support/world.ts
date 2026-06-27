@@ -1,5 +1,6 @@
 import { IWorldOptions, setWorldConstructor, World } from '@cucumber/cucumber';
 import { Browser, BrowserContext, Page } from '@playwright/test';
+import type { UserData } from '../fixtures/types';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // CustomWorld — the bridge between Cucumber scenarios and Playwright
@@ -33,6 +34,10 @@ export interface ICustomWorld {
   attach: World['attach'];
   /** Log a string to the Cucumber report output. */
   log: World['log'];
+  /** User data created during the current scenario (registration flow). */
+  userData?: UserData;
+  /** Account balance captured during the current scenario. */
+  balance?: string;
 }
 
 /** Concrete implementation registered as the Cucumber World factory. */
@@ -40,6 +45,8 @@ export class CustomWorld extends World implements ICustomWorld {
   browser!: Browser;
   context!: BrowserContext;
   page!: Page;
+  userData?: UserData;
+  balance?: string;
 
   constructor(options: IWorldOptions) {
     super(options);
