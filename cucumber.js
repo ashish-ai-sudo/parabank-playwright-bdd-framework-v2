@@ -31,20 +31,38 @@ const REQUIRE_MODULE = [
 const common = {
   requireModule: REQUIRE_MODULE,
   require:       REQUIRE,
-  paths:         ['features/**/*.feature'],
+  paths: [
+    'features/e2e_smoke.feature',          // 1. End-to-end happy path first
+    'features/registration.feature',       // 2. Registration (positive + negative)
+    'features/account_overview.feature',   // 3. Account overview (post-registration)
+    'features/login.feature',              // 4. Login: positive → logout → negative
+    'features/security.feature',           // 5. Security hardening
+    'features/accessibility.feature',      // 6. Accessibility compliance
+    'features/customer_lookup.feature',    // 7. Out-of-scope placeholder (no scenarios)
+  ],
 
   // ── Formatters ───────────────────────────────────────────────────────────
   // progress-bar  → human-readable terminal output during local development
   // html          → self-contained HTML report for sharing with stakeholders
   // json          → machine-readable output consumed by multiple-cucumber-html-reporter
+  // allure        → Allure-compatible results written to allure-results/
   format: [
     'progress-bar',
     'html:reports/cucumber-report.html',
     'json:reports/cucumber-report.json',
+    'allure-cucumberjs/reporter',
   ],
 
   formatOptions: {
     snippetInterface: 'async-await',  // Generate async step snippets
+    // Tell allure-cucumberjs how to convert the @allure.label.* tags in
+    // each feature file into proper parentSuite / suite Allure labels.
+    // The reporter strips everything up to and including the first ':' to
+    // extract the value (e.g. @allure.label.suite:Login → suite = 'Login').
+    labels: [
+      { pattern: [/^@allure\.label\.parentSuite:/], name: 'parentSuite' },
+      { pattern: [/^@allure\.label\.suite:/],       name: 'suite' },
+    ],
   },
 
   publishQuiet: true,
@@ -100,6 +118,7 @@ module.exports = {
       'progress',
       'html:reports/cucumber-report.html',
       'json:reports/cucumber-report.json',
+      'allure-cucumberjs/reporter',
     ],
   },
 

@@ -38,6 +38,8 @@ export interface ICustomWorld {
   userData?: UserData;
   /** Account balance captured during the current scenario. */
   balance?: string;
+  /** Browser console errors collected during the scenario. Populated by hooks.ts. */
+  consoleErrors: string[];
 }
 
 /** Concrete implementation registered as the Cucumber World factory. */
@@ -47,6 +49,7 @@ export class CustomWorld extends World implements ICustomWorld {
   page!: Page;
   userData?: UserData;
   balance?: string;
+  consoleErrors: string[] = [];
 
   constructor(options: IWorldOptions) {
     super(options);

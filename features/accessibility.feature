@@ -1,4 +1,4 @@
-@accessibility
+@accessibility @allure.label.parentSuite:ParaBank @allure.label.suite:Accessibility
 Feature: Application Accessibility
 
   # TC: ACS-006

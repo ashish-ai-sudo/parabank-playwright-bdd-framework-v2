@@ -17,6 +17,10 @@ dist/
 # Generated reports — never commit; regenerate from CI artefacts
 reports/
 
+# Allure reporting
+allure-results/
+allure-report/
+
 # Playwright screenshots, videos, traces
 test-results/
 playwright-report/

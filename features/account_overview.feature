@@ -1,4 +1,4 @@
-@account
+@account @allure.label.parentSuite:ParaBank @allure.label.suite:Account-Overview
 Feature: Account Overview
   As a logged-in ParaBank customer
   I want to view my accounts overview
