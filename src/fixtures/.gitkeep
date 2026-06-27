@@ -1,0 +1,7 @@
+// Test fixtures and static test data live here.
+// Use TypeScript interfaces for type safety over raw JSON.
+//
+// Example files to create:
+//   users.fixture.ts          ← predefined user data sets
+//   registration.fixture.ts   ← valid/invalid registration payloads
+//   accounts.fixture.ts       ← expected account data

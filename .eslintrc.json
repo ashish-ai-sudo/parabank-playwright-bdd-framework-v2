@@ -1,0 +1,67 @@
+{
+  "root": true,
+
+  "env": {
+    "node": true,
+    "es2022": true
+  },
+
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+
+  "plugins": ["@typescript-eslint"],
+
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "prettier"
+  ],
+
+  "rules": {
+    // ── TypeScript safety ───────────────────────────────────────────────────
+    // No silent any — force explicit typing decisions
+    "@typescript-eslint/no-explicit-any": "error",
+
+    // Floating promises cause silent test failures (async steps not awaited)
+    "@typescript-eslint/no-floating-promises": "error",
+
+    // Require explicit return types on public functions for readability
+    "@typescript-eslint/explicit-function-return-type": [
+      "warn",
+      { "allowExpressions": true, "allowTypedFunctionExpressions": true }
+    ],
+
+    // Unused code is dead code
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+    ],
+
+    // Prefer type-safe non-null assertion alternatives
+    "@typescript-eslint/no-non-null-assertion": "warn",
+
+    // Async functions that don't await anything are likely mistakes
+    "@typescript-eslint/require-await": "error",
+
+    // ── General quality ─────────────────────────────────────────────────────
+    // console.log in tests is usually debug noise left by accident
+    "no-console": ["warn", { "allow": ["warn", "error", "info"] }],
+    "prefer-const": "error",
+    "no-var": "error",
+    "eqeqeq": ["error", "always"]
+  },
+
+  "ignorePatterns": [
+    "dist/**",
+    "reports/**",
+    "test-results/**",
+    "node_modules/**",
+    "*.js",
+    "scripts/**"
+  ]
+}

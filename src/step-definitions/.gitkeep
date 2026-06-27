@@ -1,0 +1,10 @@
+// Step definitions will be added in the next phase.
+// Each file in this directory should map to a feature file.
+// Naming convention: <feature-name>.steps.ts
+//
+// Example files to create:
+//   registration.steps.ts
+//   login.steps.ts
+//   account-overview.steps.ts
+//   customer-lookup.steps.ts
+//   common.steps.ts          ← shared Given steps (e.g. "the user is on the...")

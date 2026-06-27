@@ -1,0 +1,8 @@
+// Shared utility functions will live here.
+// Keep utilities pure (no Playwright dependencies) where possible.
+//
+// Example files to create:
+//   string.utils.ts       ← random data generation, string helpers
+//   date.utils.ts         ← date formatting helpers
+//   assertion.utils.ts    ← custom assertion wrappers
+//   wait.utils.ts         ← custom wait/retry helpers

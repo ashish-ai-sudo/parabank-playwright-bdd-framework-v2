@@ -1,0 +1,48 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# .gitignore — ParaBank BDD Automation
+# ──────────────────────────────────────────────────────────────────────────────
+
+# ── Node ──────────────────────────────────────────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ── TypeScript build output ───────────────────────────────────────────────────
+dist/
+*.js.map
+*.d.ts.map
+
+# ── Test artefacts ────────────────────────────────────────────────────────────
+# Generated reports — never commit; regenerate from CI artefacts
+reports/
+
+# Playwright screenshots, videos, traces
+test-results/
+playwright-report/
+
+# Cucumber message stream (large binary-ish file)
+*.ndjson
+
+# ── Environment files ─────────────────────────────────────────────────────────
+# .env.example IS committed (it's the template)
+# All real .env files are local secrets and MUST NOT be committed
+.env
+.env.local
+.env.staging
+.env.production
+.env.*.local
+
+# ── IDE & OS ──────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/settings.json
+.vscode/launch.json
+*.swp
+*.swo
+
+# ── Misc ──────────────────────────────────────────────────────────────────────
+.tmp/
+*.log
+coverage/
